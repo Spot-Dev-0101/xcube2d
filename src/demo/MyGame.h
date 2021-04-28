@@ -11,8 +11,13 @@ struct GameKey {
 class MyGame : public AbstractGame {
 	private:
 		Rect box;
+		std::shared_ptr<PhysicsObject> boxPo;
 
-		Vector2i velocity;
+		Rect box2;
+		std::shared_ptr<PhysicsObject> boxPo2;
+
+		Rect box3;
+		std::shared_ptr<PhysicsObject> boxPo3;
 
 		std::vector<std::shared_ptr<GameKey>> gameKeys;
 
