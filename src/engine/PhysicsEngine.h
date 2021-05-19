@@ -7,7 +7,7 @@
 
 #include "GameMath.h"
 
-static const float DEFAULT_GRAVITY = 0.25f;//default was 1.0f
+static const float DEFAULT_GRAVITY = 1.0f;//default was 1.0f
 
 class PhysicsObject;
 
@@ -45,6 +45,8 @@ class PhysicsObject {
 
 		void applyForce(Vector2f &);
 
+		std::shared_ptr<void>& (*onCollide)(std::shared_ptr<PhysicsObject> self, std::shared_ptr<PhysicsObject> other);
+
 	public:
 		PhysicsObject(const Point2 & center, float x, float y);
 
@@ -58,7 +60,7 @@ class PhysicsObject {
 
 		std::string name = "PhysicsObject";
 
-		std::shared_ptr<void>& (*onCollide)(std::shared_ptr<PhysicsObject> self, std::shared_ptr<PhysicsObject> other);
+		
 
 		Vector2f velocity;
 

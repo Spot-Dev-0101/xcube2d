@@ -75,11 +75,11 @@ float PhysicsObject::getDistanceTo(PhysicsObject& other) {
 }
 
 void PhysicsObject::invertVelocityX(Vector2f& gravity) {
-	velocity.x = (-velocity.x);// - gravity.x;
+	velocity.x = -velocity.x;
 }
 
 void PhysicsObject::invertVelocityY(Vector2f& gravity) {
-	velocity.y = (-velocity.y);// - gravity.y;
+	velocity.y = -velocity.y;
 }
 
 
@@ -96,6 +96,7 @@ void RectPhysics::update()
 
 void PhysicsObject::setOnCollide(std::shared_ptr<void>& (*collisionFunction)(std::shared_ptr<PhysicsObject> self, std::shared_ptr<PhysicsObject> other))
 {
+	//Sets the function
 	onCollide = collisionFunction;
 	hasSetCollider = true;
 }

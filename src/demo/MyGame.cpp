@@ -1,5 +1,6 @@
 #include "MyGame.h"
 
+//The collision callback function has to be defined befire it is used
 std::shared_ptr<void> &collided(std::shared_ptr<PhysicsObject> self, std::shared_ptr<PhysicsObject> other){
 	std::cout << self->name << " Collided with " << other->name << "\n";
 	return std::shared_ptr<void>();
@@ -7,7 +8,7 @@ std::shared_ptr<void> &collided(std::shared_ptr<PhysicsObject> self, std::shared
 
 MyGame::MyGame() : AbstractGame(), score(0), lives(3), numKeys(5), gameWon(false), box1(10, 500, 30, 30), box2(260, 10, 50, 50), box3(250, 300, 20, 20), box4(500, 300, 40, 40)
 , box5(400, 50, 70, 70) {
-	TTF_Font * font = ResourceManager::loadFont("res/fonts/arial.ttf", 72);
+	TTF_Font * font = ResourceManager::loadFont("res/fonts/arial.ttf", 32);
 
 	physics->windowSize = gfx->getCurrentWindowSize();
 
@@ -21,7 +22,7 @@ MyGame::MyGame() : AbstractGame(), score(0), lives(3), numKeys(5), gameWon(false
 	box1.physicsObject->useGravity = true;
 	box1.physicsObject->useCollisions = true;
 	box1.physicsObject->confineToScreen = true;
-	box1.physicsObject->setVelocity(0, 0);
+	box1.physicsObject->setVelocity(10, 0);
 	box1.physicsObject->usePassThroughDetection = true;
 	box1.physicsObject->name = "box1";
 	box1.physicsObject->setOnCollide(&collided);
@@ -29,7 +30,6 @@ MyGame::MyGame() : AbstractGame(), score(0), lives(3), numKeys(5), gameWon(false
 	box2.physicsObject->useGravity = true;
 	box2.physicsObject->useCollisions = true;
 	box2.physicsObject->confineToScreen = true;
-	box2.physicsObject->setVelocity(0, 0);
 	box2.physicsObject->usePassThroughDetection = true;
 	box2.physicsObject->name = "box2";
 	box2.physicsObject->setOnCollide(&collided);
@@ -37,7 +37,6 @@ MyGame::MyGame() : AbstractGame(), score(0), lives(3), numKeys(5), gameWon(false
 	box3.physicsObject->useGravity = true;
 	box3.physicsObject->useCollisions = true;
 	box3.physicsObject->confineToScreen = true;
-	box3.physicsObject->setVelocity(0, 0);
 	box3.physicsObject->usePassThroughDetection = true;
 	box3.physicsObject->name = "box3";
 	box3.physicsObject->setOnCollide(&collided);
@@ -45,7 +44,6 @@ MyGame::MyGame() : AbstractGame(), score(0), lives(3), numKeys(5), gameWon(false
 	box4.physicsObject->useGravity = true;
 	box4.physicsObject->useCollisions = true;
 	box4.physicsObject->confineToScreen = true;
-	box4.physicsObject->setVelocity(0, 0);
 	box4.physicsObject->usePassThroughDetection = true;
 	box4.physicsObject->name = "box4";
 	box4.physicsObject->setOnCollide(&collided);
@@ -53,7 +51,7 @@ MyGame::MyGame() : AbstractGame(), score(0), lives(3), numKeys(5), gameWon(false
 	box5.physicsObject->useGravity = true;
 	box5.physicsObject->useCollisions = true;
 	box5.physicsObject->confineToScreen = true;
-	box5.physicsObject->setVelocity(0, 0);
+	box5.physicsObject->setVelocity(0, 10);
 	box5.physicsObject->usePassThroughDetection = true;
 	box5.physicsObject->name = "box5";
 	box5.physicsObject->setOnCollide(&collided);
@@ -153,7 +151,7 @@ void MyGame::render() {
 void MyGame::renderUI() {
 	//Draw text
 	gfx->setDrawColor(SDL_COLOR_AQUA);
-	gfx->drawText(gravityStr, 0, 50);
-	gfx->drawText(collisionStr, 0, 200);
+	gfx->drawText(gravityStr, 0, 20);
+	gfx->drawText(collisionStr, 0, 60);
 
 }
