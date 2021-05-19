@@ -10,16 +10,16 @@ struct GameKey {
 
 class MyGame : public AbstractGame {
 	private:
-		Rect box;
-		std::shared_ptr<PhysicsObject> boxPo;
 
-		Rect box2;
-		std::shared_ptr<PhysicsObject> boxPo2;
-
-		Rect box3;
-		std::shared_ptr<PhysicsObject> boxPo3;
-
-		std::vector<std::shared_ptr<GameKey>> gameKeys;
+		//create the boxes
+		RectPhysics box1;
+		RectPhysics box2;
+		RectPhysics box3;
+		RectPhysics box4;
+		RectPhysics box5;
+		
+		std::string gravityStr = "Gravity: On";
+		std::string collisionStr = "Collision: On";
 
 		/* GAMEPLAY */
 		int score, numKeys, lives;
@@ -29,6 +29,8 @@ class MyGame : public AbstractGame {
 		void update();
 		void render();
 		void renderUI();
+
+		//void collided(std::shared_ptr<PhysicsObject>);
 	public:
         MyGame();
 		~MyGame();

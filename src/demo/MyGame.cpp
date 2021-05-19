@@ -1,7 +1,12 @@
 #include "MyGame.h"
 
-MyGame::MyGame() : AbstractGame(), score(0), lives(3), numKeys(5), gameWon(false), box(100, 0, 30, 30), boxPo(new PhysicsObject(Point2(100, 100), 30, 30))
-	, box2(0, 0, 30, 30), boxPo2(new PhysicsObject(Point2(110, 200), 30, 30)), box3(200, 0, 30, 30), boxPo3(new PhysicsObject(Point2(400, 200), 30, 30)) {
+std::shared_ptr<void> &collided(std::shared_ptr<PhysicsObject> self, std::shared_ptr<PhysicsObject> other){
+	std::cout << self->name << " Collided with " << other->name << "\n";
+	return std::shared_ptr<void>();
+}
+
+MyGame::MyGame() : AbstractGame(), score(0), lives(3), numKeys(5), gameWon(false), box1(10, 500, 30, 30), box2(260, 10, 50, 50), box3(250, 300, 20, 20), box4(500, 300, 40, 40)
+, box5(400, 50, 70, 70) {
 	TTF_Font * font = ResourceManager::loadFont("res/fonts/arial.ttf", 72);
 
 	physics->windowSize = gfx->getCurrentWindowSize();
@@ -9,35 +14,60 @@ MyGame::MyGame() : AbstractGame(), score(0), lives(3), numKeys(5), gameWon(false
 	gfx->useFont(font);
 	gfx->setVerticalSync(true);
 
-	boxPo->useGravity = true;
-	boxPo->useCollisions = true;
-	boxPo->confineToScreen = true;
-	boxPo->setVelocity(getRandom(-10, 10), getRandom(-10, 10));
+	//void (*collisionFunction)(std::shared_ptr<PhysicsObject> other) = &collided;
 
-	boxPo2->useGravity = true;
-	boxPo2->useCollisions = true;
-	boxPo2->confineToScreen = true;
-	boxPo2->setVelocity(getRandom(-10, 10), getRandom(-10, 10));
+	//Setup all the boxes
+	//All have Gravity, collisions, are confined to the screen, and pass through collision detection
+	box1.physicsObject->useGravity = true;
+	box1.physicsObject->useCollisions = true;
+	box1.physicsObject->confineToScreen = true;
+	box1.physicsObject->setVelocity(0, 0);
+	box1.physicsObject->usePassThroughDetection = true;
+	box1.physicsObject->name = "box1";
+	box1.physicsObject->setOnCollide(&collided);
 
-	boxPo3->useGravity = true;
-	boxPo3->useCollisions = true;
-	boxPo3->confineToScreen = true;
-	boxPo3->setVelocity(getRandom(-10, 10), getRandom(-10, 10));
+	box2.physicsObject->useGravity = true;
+	box2.physicsObject->useCollisions = true;
+	box2.physicsObject->confineToScreen = true;
+	box2.physicsObject->setVelocity(0, 0);
+	box2.physicsObject->usePassThroughDetection = true;
+	box2.physicsObject->name = "box2";
+	box2.physicsObject->setOnCollide(&collided);
 
+	box3.physicsObject->useGravity = true;
+	box3.physicsObject->useCollisions = true;
+	box3.physicsObject->confineToScreen = true;
+	box3.physicsObject->setVelocity(0, 0);
+	box3.physicsObject->usePassThroughDetection = true;
+	box3.physicsObject->name = "box3";
+	box3.physicsObject->setOnCollide(&collided);
 
+	box4.physicsObject->useGravity = true;
+	box4.physicsObject->useCollisions = true;
+	box4.physicsObject->confineToScreen = true;
+	box4.physicsObject->setVelocity(0, 0);
+	box4.physicsObject->usePassThroughDetection = true;
+	box4.physicsObject->name = "box4";
+	box4.physicsObject->setOnCollide(&collided);
 
-	physics->registerObject(boxPo);
-	physics->registerObject(boxPo2);
-	physics->registerObject(boxPo3);
+	box5.physicsObject->useGravity = true;
+	box5.physicsObject->useCollisions = true;
+	box5.physicsObject->confineToScreen = true;
+	box5.physicsObject->setVelocity(0, 0);
+	box5.physicsObject->usePassThroughDetection = true;
+	box5.physicsObject->name = "box5";
+	box5.physicsObject->setOnCollide(&collided);
 
+	//Add the boxes to the physicsEngine
+	physics->registerObject(box1.physicsObject);
+	physics->registerObject(box2.physicsObject);
+	physics->registerObject(box3.physicsObject);
+	physics->registerObject(box4.physicsObject);
+	physics->registerObject(box5.physicsObject);
 
-    for (int i = 0; i < numKeys; i++) {
-        std::shared_ptr<GameKey> k = std::make_shared<GameKey>();
-        k->isAlive = true;
-        k->pos = Point2(getRandom(0, 750), getRandom(0, 550));
-        gameKeys.push_back(k);
-    }
 }
+
+
 
 MyGame::~MyGame() {
 
@@ -45,64 +75,85 @@ MyGame::~MyGame() {
 
 void MyGame::handleKeyEvents() {
 	//int speed = 3;
-
-	//if (eventSystem->isPressed(Key::W)) {
-	//	velocity.y = -speed;
-	//}
+	if (eventSystem->isPressed(Key::SPACE)) {
+		//Disable gravity for all objects
+		if (box1.physicsObject->useGravity) {
+			box1.physicsObject->useGravity = false;
+			box2.physicsObject->useGravity = false;
+			box3.physicsObject->useGravity = false;
+			box4.physicsObject->useGravity = false;
+			box5.physicsObject->useGravity = false;
+			gravityStr = "Gravity: Off";
+		} else {//Enable gravity
+			box1.physicsObject->useGravity = true;
+			box2.physicsObject->useGravity = true;
+			box3.physicsObject->useGravity = true;
+			box4.physicsObject->useGravity = true;
+			box5.physicsObject->useGravity = true;
+			gravityStr = "Gravity: On";
+		}
+		
+	}
+	else if (eventSystem->isPressed(Key::A)) {
+		//Disable collisions
+		if (box1.physicsObject->useCollisions) {
+			box1.physicsObject->useCollisions = false;
+			box2.physicsObject->useCollisions = false;
+			box3.physicsObject->useCollisions = false;
+			box4.physicsObject->useCollisions = false;
+			box5.physicsObject->useCollisions = false;
+			collisionStr = "Collision: Off";
+		} else {//Enable collisions
+			box1.physicsObject->useCollisions = true;
+			box2.physicsObject->useCollisions = true;
+			box3.physicsObject->useCollisions = true;
+			box4.physicsObject->useCollisions = true;
+			box5.physicsObject->useCollisions = true;
+			collisionStr = "Collision: On";
+		}
+	}
 }
+
+
 
 void MyGame::update() {
 	//box.x += velocity.x;
 	//box.y += velocity.y;
-	
-	box.y = boxPo->getCenter().y;
-	box.x = boxPo->getCenter().x;
 
-	box2.y = boxPo2->getCenter().y;
-	box2.x = boxPo2->getCenter().x;
+	//Update all the boxes
+	box1.update();
+	box2.update();
+	box3.update();
+	box4.update();
+	box5.update();
 
-	box3.y = boxPo3->getCenter().y;
-	box3.x = boxPo3->getCenter().x;
 
 	//std::cout << "MyGame update: " << box.x << " " << box.y << "\n";
 
-	
-
-
-
-	for (auto key : gameKeys) {
-		if (key->isAlive && box.contains(key->pos)) {
-			score += 200;
-			key->isAlive = false;
-			numKeys--;
-		}
-	}
-
-	if (numKeys == 0) {
-		gameWon = true;
-	}
 }
 
+
 void MyGame::render() {
-	gfx->setDrawColor(SDL_COLOR_RED);
-	gfx->drawRect(box);
+	//Draw all the boxes
+	gfx->setDrawColor(SDL_COLOR_YELLOW);
+	gfx->drawRect(box1);
 	gfx->setDrawColor(SDL_COLOR_GREEN);
 	gfx->drawRect(box2);
-	gfx->setDrawColor(SDL_COLOR_YELLOW);
+	gfx->setDrawColor(SDL_COLOR_RED);
 	gfx->drawRect(box3);
+	gfx->setDrawColor(SDL_COLOR_WHITE);
+	gfx->drawRect(box4);
+	gfx->setDrawColor(SDL_COLOR_PINK);
+	gfx->drawRect(box5);
+	
 
-
-	gfx->setDrawColor(SDL_COLOR_YELLOW);
-	for (auto key : gameKeys)
-        if (key->isAlive)
-		    gfx->drawCircle(key->pos, 5);
+	
 }
 
 void MyGame::renderUI() {
+	//Draw text
 	gfx->setDrawColor(SDL_COLOR_AQUA);
-	std::string scoreStr = std::to_string(score);
-	gfx->drawText(scoreStr, 780 - scoreStr.length() * 50, 25);
+	gfx->drawText(gravityStr, 0, 50);
+	gfx->drawText(collisionStr, 0, 200);
 
-	if (gameWon)
-		gfx->drawText("YOU WON", 250, 500);
 }

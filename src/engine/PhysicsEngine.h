@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <memory>
+#include <string>
 
 #include "GameMath.h"
 
@@ -40,7 +41,10 @@ class PhysicsObject {
 
 		Vector2f force;
 
+		int amountOfPassThroughPoints = 5;
+
 		void applyForce(Vector2f &);
+
 	public:
 		PhysicsObject(const Point2 & center, float x, float y);
 
@@ -49,6 +53,12 @@ class PhysicsObject {
 		bool useCollisions = false;
 		bool canMove = true;
 		bool confineToScreen = false;
+		bool usePassThroughDetection = false;
+		bool hasSetCollider = false;
+
+		std::string name = "PhysicsObject";
+
+		std::shared_ptr<void>& (*onCollide)(std::shared_ptr<PhysicsObject> self, std::shared_ptr<PhysicsObject> other);
 
 		Vector2f velocity;
 
@@ -64,10 +74,10 @@ class PhysicsObject {
 
 		virtual void applyVelocity();
 		virtual void setVelocity(float x, float y);
-		virtual void invertVelocityX(float decay);
-		virtual void invertVelocityY(float decay);
+		virtual void invertVelocityX(Vector2f& gravity);
+		virtual void invertVelocityY(Vector2f& gravity);
 
-		
+		void setOnCollide(std::shared_ptr<void>& (*onCollide)(std::shared_ptr<PhysicsObject> self, std::shared_ptr<PhysicsObject> other));
 
 		/**
 		* If we have different implementations of engines/gravity
@@ -75,6 +85,19 @@ class PhysicsObject {
 		*/
 		virtual void applyGravity(Vector2f& gravity);
 		virtual void applyAntiGravity(Vector2f& gravity);
+};
+
+class RectPhysics : public Rect{ // PhysicsObject(Point2(x, y), w, h), 
+	private:
+		
+				
+	public:
+		std::shared_ptr<PhysicsObject> physicsObject;
+
+
+		RectPhysics(float x, float y, float w, float h);
+
+		void update();
 };
 
 #endif
