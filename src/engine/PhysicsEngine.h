@@ -41,7 +41,7 @@ class PhysicsObject {
 
 		Vector2f force;
 
-		int amountOfPassThroughPoints = 5;
+		
 
 		void applyForce(Vector2f &);
 
@@ -57,6 +57,8 @@ class PhysicsObject {
 		bool confineToScreen = false;
 		bool usePassThroughDetection = false;
 		bool hasSetCollider = false;
+		bool useCollisionTrigger = false;
+		int amountOfPassThroughPoints = 5;
 
 		std::string name = "PhysicsObject";
 

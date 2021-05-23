@@ -15,36 +15,36 @@ MyGame::MyGame() : AbstractGame(), score(0), lives(3), numKeys(5), gameWon(false
 	gfx->useFont(font);
 	gfx->setVerticalSync(true);
 
-	//void (*collisionFunction)(std::shared_ptr<PhysicsObject> other) = &collided;
-
 	//Setup all the boxes
 	//All have Gravity, collisions, are confined to the screen, and pass through collision detection
 	box1.physicsObject->useGravity = true;
 	box1.physicsObject->useCollisions = true;
 	box1.physicsObject->confineToScreen = true;
 	box1.physicsObject->setVelocity(10, 0);
-	box1.physicsObject->usePassThroughDetection = true;
+	box1.physicsObject->usePassThroughDetection = false;
 	box1.physicsObject->name = "box1";
 	box1.physicsObject->setOnCollide(&collided);
+	box1.physicsObject->useCollisionTrigger = true;
 
 	box2.physicsObject->useGravity = true;
 	box2.physicsObject->useCollisions = true;
 	box2.physicsObject->confineToScreen = true;
-	box2.physicsObject->usePassThroughDetection = true;
+	box2.physicsObject->usePassThroughDetection = false;
 	box2.physicsObject->name = "box2";
 	box2.physicsObject->setOnCollide(&collided);
+	box2.physicsObject->useCollisionTrigger = true;
 
 	box3.physicsObject->useGravity = true;
 	box3.physicsObject->useCollisions = true;
 	box3.physicsObject->confineToScreen = true;
-	box3.physicsObject->usePassThroughDetection = true;
+	box3.physicsObject->usePassThroughDetection = false;
 	box3.physicsObject->name = "box3";
 	box3.physicsObject->setOnCollide(&collided);
 
 	box4.physicsObject->useGravity = true;
 	box4.physicsObject->useCollisions = true;
 	box4.physicsObject->confineToScreen = true;
-	box4.physicsObject->usePassThroughDetection = true;
+	box4.physicsObject->usePassThroughDetection = false;
 	box4.physicsObject->name = "box4";
 	box4.physicsObject->setOnCollide(&collided);
 
@@ -52,7 +52,7 @@ MyGame::MyGame() : AbstractGame(), score(0), lives(3), numKeys(5), gameWon(false
 	box5.physicsObject->useCollisions = true;
 	box5.physicsObject->confineToScreen = true;
 	box5.physicsObject->setVelocity(0, 10);
-	box5.physicsObject->usePassThroughDetection = true;
+	box5.physicsObject->usePassThroughDetection = false;
 	box5.physicsObject->name = "box5";
 	box5.physicsObject->setOnCollide(&collided);
 
@@ -81,14 +81,14 @@ void MyGame::handleKeyEvents() {
 			box3.physicsObject->useGravity = false;
 			box4.physicsObject->useGravity = false;
 			box5.physicsObject->useGravity = false;
-			gravityStr = "Gravity: Off";
+			gravityStr = "Gravity (space): Off";
 		} else {//Enable gravity
 			box1.physicsObject->useGravity = true;
 			box2.physicsObject->useGravity = true;
 			box3.physicsObject->useGravity = true;
 			box4.physicsObject->useGravity = true;
 			box5.physicsObject->useGravity = true;
-			gravityStr = "Gravity: On";
+			gravityStr = "Gravity (space): On";
 		}
 		
 	}
@@ -100,14 +100,14 @@ void MyGame::handleKeyEvents() {
 			box3.physicsObject->useCollisions = false;
 			box4.physicsObject->useCollisions = false;
 			box5.physicsObject->useCollisions = false;
-			collisionStr = "Collision: Off";
+			collisionStr = "Collision (A): Off";
 		} else {//Enable collisions
 			box1.physicsObject->useCollisions = true;
 			box2.physicsObject->useCollisions = true;
 			box3.physicsObject->useCollisions = true;
 			box4.physicsObject->useCollisions = true;
 			box5.physicsObject->useCollisions = true;
-			collisionStr = "Collision: On";
+			collisionStr = "Collision (A): On";
 		}
 	}
 }

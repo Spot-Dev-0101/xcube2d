@@ -18,8 +18,8 @@ class MyGame : public AbstractGame {
 		RectPhysics box4;
 		RectPhysics box5;
 		
-		std::string gravityStr = "Gravity: On";
-		std::string collisionStr = "Collision: On";
+		std::string gravityStr = "Gravity (space): On";
+		std::string collisionStr = "Collision (A): On";
 
 		/* GAMEPLAY */
 		int score, numKeys, lives;

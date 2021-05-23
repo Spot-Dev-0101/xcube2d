@@ -163,6 +163,17 @@ void PhysicsEngine::update() {
 					}
 				}
 			}
+		} else if (po->useCollisionTrigger) {
+			for (std::shared_ptr<PhysicsObject> otherPo : objects) {
+				//Only check collisions if the other is also using collisions
+				if (po != otherPo && (otherPo->useCollisions || otherPo->useCollisionTrigger)) {
+					if (po->isColliding(*otherPo)) {
+						if (po->hasSetCollider) {
+							po->onCollide(po, otherPo);
+						}
+					}
+				}
+			}
 		}
 
 		if (po->confineToScreen) {
